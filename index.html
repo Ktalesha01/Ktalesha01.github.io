@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalpesh - SQL Developer & Data Wrangler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #3a4a5c;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(58, 74, 92, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: #4a9eff;
+            background-color: rgba(74, 158, 255, 0.1);
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            padding: 100px 0 50px;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Home Section */
+        .hero {
+            text-align: center;
+            padding: 150px 0 100px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: #bbb;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 100px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #4a9eff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a8eef;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #3a4a5c;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4a9eff;
+        }
+
+        .stat-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .stat-text {
+            color: #bbb;
+            font-size: 1rem;
+        }
+
+        /* Projects Section */
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #bbb;
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .tech-stack {
+            color: #4a9eff;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .project-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Resume Section */
+        .download-btn {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .resume-section {
+            margin-bottom: 50px;
+        }
+
+        .resume-section h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: white;
+            border-bottom: 2px solid #4a9eff;
+            padding-bottom: 10px;
+        }
+
+        .experience-item, .education-item, .cert-item {
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #4a9eff;
+        }
+
+        .job-header, .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .job-title, .cert-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .company, .cert-org {
+            color: #bbb;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #4a9eff;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .job-description ul, .cert-description ul {
+            margin-left: 20px;
+            color: #ccc;
+        }
+
+        .job-description li, .cert-description li {
+            margin-bottom: 8px;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            gap: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #4a9eff;
+            width: 50px;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .contact-info a {
+            color: #4a9eff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            nav a {
+                font-size: 16px;
+                padding: 8px 15px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-header, .cert-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#resume" class="nav-link">Resume</a></li>
+                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="container">
+            <div class="hero">
+                <h1>Hi, I'm Kalpesh</h1>
+                <h2>SQL Developer & Data Wrangler</h2>
+                <p>Crafting data-driven solutions through efficient SQL and relational database design.</p>
+                
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn btn-primary nav-link">View Projects</a>
+                    <a href="#" class="btn btn-secondary" onclick="downloadResume()">Download Resume</a>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <h3>Years of Experience</h3>
+                    <div class="stat-value">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛠️</div>
+                    <h3>Tools Used</h3>
+                    <div class="stat-text">SQL, PL/SQL, Python</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💾</div>
+                    <h3>Total Projects Completed</h3>
+                    <div class="stat-value">12</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <p class="section-subtitle">Some of the notable projects I've worked on</p>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>University Course Management System</h3>
+                    <div class="tech-stack">Tech Stack: Oracle SQL, PL/SQL, ER Modelling</div>
+                    <p>Designed schema and optimized queries for managing student enrollments and grades.</p>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Sales Data Warehouse</h3>
+                    <div class="tech-stack">Tech Stack: SQL Server, SSIS, Power BI</div>
+                    <p>Created a data warehouse and developed ETL pipelines for sales reporting and analysis</p>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Employee Attendance Tracker</h3>
+                    <div class="tech-stack">Tech Stack: MySQL, Python</div>
+                    <p>Built a database and reporting tool to track and visualize employee attendance records.</p>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Hospital Database Optimization</h3>
+                    <div class="tech-stack">Tech Stack: PostgreSQL, SQL</div>
+                    <p>Improved the performance of a hospital database via indexing and query tuning</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume" class="section">
+        <div class="container">
+            <h2 class="section-title">Resume</h2>
+            
+            <div class="download-btn">
+                <a href="#" class="btn btn-primary" onclick="downloadResume()">Download PDF</a>
+            </div>
+
+            <div class="resume-section">
+                <h3>EXPERIENCE</h3>
+                
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">SQL Developer</div>
+                            <div class="company">XYZ Data Solutions • Job Location City</div>
+                        </div>
+                        <div class="date">June – 2020</div>
+                    </div>
+                    <div class="job-description">
+                        <ul>
+                            <li>Developed and maintained complex SQL queries, stored procedures, and functions</li>
+                            <li>Optimized database performance, resulting in 30% reduction in query times</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Database Developer</div>
+                            <div class="company">ABC Tech Company • Job Location City</div>
+                        </div>
+                        <div class="date">April 2018 – May 2020</div>
+                    </div>
+                    <div class="job-description">
+                        <ul>
+                            <li>Designed and implemented relational databases for various applications</li>
+                            <li>Wrote and optimized SQL queries for data extraction and reporting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h3>EDUCATION</h3>
+                
+                <div class="education-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Bachelor of Science in Computer Science</div>
+                            <div class="company">State University</div>
+                        </div>
+                        <div class="date">2018</div>
+                    </div>
+                    <div class="job-description">
+                        <ul>
+                            <li>Relevant coursework: Database Management, Data Structures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="section">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            
+            <div class="cert-item">
+                <div class="cert-header">
+                    <div>
+                        <div class="cert-title">SQL Database Certification</div>
+                        <div class="cert-org">DataCamp</div>
+                    </div>
+                    <div class="date">June 2023</div>
+                </div>
+                <div class="cert-description">
+                    <ul>
+                        <li>Completed comprehensive SQL certification program</li>
+                        <li>Demonstrated proficiency in querying and managing relational databases</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cert-item">
+                <div class="cert-header">
+                    <div>
+                        <div class="cert-title">Microsoft Certified: Azure Database Administrator Associate</div>
+                        <div class="cert-org">Microsoft</div>
+                    </div>
+                    <div class="date">March 2022</div>
+                </div>
+                <div class="cert-description">
+                    <ul>
+                        <li>Passed exam DP-300: Administering Relational Databases on Microsoft Azure</li>
+                        <li>Validated skills in Azure SQL Database management and administration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-info">
+                        <h3>Email</h3>
+                        <a href="mailto:kalpeshtalesha01@gmail.com">kalpeshtalesha01@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-info">
+                        <h3>Phone</h3>
+                        <a href="tel:+917208495230">+91 72084 95230</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <div class="contact-info">
+                        <h3>LinkedIn</h3>
+                        <a href="https://www.linkedin.com/in/kalpeshtalesha01/" target="_blank">linkedin.com/in/kalpeshtalesha01</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">💻</div>
+                    <div class="contact-info">
+                        <h3>GitHub</h3>
+                        <a href="https://github.com/Ktalesha01" target="_blank">github.com/Ktalesha01</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav links and sections
+                    navLinks.forEach(nl => nl.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked nav link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#') {
+                        e.preventDefault();
+                        // Navigation is handled by the nav-link event listener above
+                    }
+                });
+            });
+        });
+
+        // Download resume function
+        function downloadResume() {
+            // In a real implementation, this would download an actual PDF file
+            alert('Resume download would start here. Please replace this with actual PDF file link.');
+            
+            // Example of how you could implement actual download:
+            // const link = document.createElement('a');
+            // link.href = 'path/to/resume.pdf';
+            // link.download = 'Kalpesh_Resume.pdf';
+            // link.click();
+        }
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(58, 74, 92, 0.98)';
+            } else {
+                nav.style.backgroundColor = 'rgba(58, 74, 92, 0.95)';
+            }
+        });
+
+        // Add animation on load
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
